@@ -1,0 +1,4 @@
+.DS_Store
+profile
+test/config.yml
+*.gem
