@@ -1,5 +1,5 @@
 Gem::Specification.new do |s|
-  s.name        = 'SpookyCore'
+  s.name        = 'spooky_core'
   s.version     = '0.1'
   s.summary     = "A simple wrapper for the Spreedly Core API V1."
   s.description = "Much longer explanation of the example!"
