@@ -38,20 +38,12 @@ module SpookyCore
       at('year', :to_i)
     end
 
-    def reverse(amount, currency = 'USD')
-      Request.transaction('reverse', @token, amount, currency)
+    def credit(amount, currency = 'USD')
+      Request.transaction('credit', @token, amount, currency)
     end
 
     def purchase(amount, currency = 'USD')
       Request.transaction('purchase', @token, amount, currency)
-    end
-
-    def authorize(amount, currency = 'USD')
-      Request.transaction('authorize', @token, amount, currency)
-    end
-
-    def capture(token)
-      Request.transaction('capture', @token, amount, currency)
     end
   end
 end

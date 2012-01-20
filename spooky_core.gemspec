@@ -8,6 +8,8 @@ Gem::Specification.new do |s|
   s.homepage    = 'http://github.com/spookandpuff/spooky_core'
 
   s.files = [
+    "LICENSE",
+    "README",
     "lib/spooky_core.rb",
     *Dir.glob("lib/spooky_core/*.rb")
   ]

@@ -1,0 +1,45 @@
+.oPYo.                      8             .oPYo.
+8                           8             8    8
+`Yooo. .oPYo. .oPYo. .oPYo. 8  .o  o    o 8      .oPYo. oPYo. .oPYo.
+    `8 8    8 8    8 8    8 8oP'   8    8 8      8    8 8  `' 8oooo8
+     8 8    8 8    8 8    8 8 `b.  8    8 8    8 8    8 8     8.
+`YooP' 8YooP' `YooP' `YooP' 8  `o. `YooP8 `YooP' `YooP' 8     `Yooo'
+       8                                8
+       8                             ooP
+
+A simple wrapper around the Spreedly Core V1 API [http://spreedlycore.com]
+
+At this stage SpookyCore is not a comprehensive library. It presently implements
+the core functionality which we need immediately. In the future it will expand
+to include a greater coverage of the API.
+
+USAGE
+First, configure SpookyCore:
+
+  SpookyCore.configure(<login>, <secret>, <gateway_token>)
+
+To retrieve a payment method and inspect it is quite simple:
+
+  pm = SpookyCore::PaymentMethod.new(token)
+  pm.first_name #=> 'Cassius'
+
+To process a transaction is also simple:
+
+  t = pm.purchase(20, 'AUD')
+  t.succeeded? #=> true
+
+The currently supported transactions are:
+* purchase
+* credit
+
+Yeah, pretty anemic, but luckily the SC API is very simple, so implementing
+additional transactions is very simple; more will be added soon.
+
+TODOS
+* Greater test coverage
+* API documentation
+* Implement more of the API (retain etc.)
+* Implement accessors for more of the properties on the method and transactions
+* Catch authentication errors
+* Catch errors when requesting non-existant records
+* Catch network errors
