@@ -8,8 +8,7 @@ module SpookyCore
 
     def self.configure(login, secret, gateway)
       config[:login], config[:secret], config[:gateway] = login, secret, gateway
-
-      basic_auth(config[:api_login], config[:api_secret])
+      basic_auth(login, secret)
     end
 
     def self.config
@@ -26,8 +25,10 @@ module SpookyCore
         }
       end
 
-      response = post("/gateways/#{config[:gateway_token]}/#{action}.xml" :body => transaction.to_xml)
-      Transaction.new(Nokogiri::XML::Document.new(response))
+      # Check to see if the response is a 500, 404 or 403 and raise an
+      # appropriate error.
+      response = post("/gateways/#{config[:gateway]}/#{action}.xml", :body => transaction.to_xml)
+      Transaction.new(response.body)
     end
   end
 end
