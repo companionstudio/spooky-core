@@ -4,10 +4,17 @@ module SpookyCore
 
     attr_reader :token, :details
 
-    def initialize(token)
-      @token = token
+    def self.find(token)
       response = Request.get("/payment_methods/#{token}.xml")
-      create_doc('payment_method', response.body)
+      new(response.body)
+    end
+
+    def initialize(xml)
+      create_doc('payment_method', xml)
+    end
+
+    def token
+      at('token')
     end
 
     def first_name
@@ -38,12 +45,12 @@ module SpookyCore
       at('year', :to_i)
     end
 
-    def credit(amount, currency = 'USD')
-      Request.transaction('credit', @token, amount, currency)
+    def purchase(amount, currency = 'USD')
+      Transaction.create_from_payment_method('purchase', token, amount, currency)
     end
 
-    def purchase(amount, currency = 'USD')
-      Request.transaction('purchase', @token, amount, currency)
+    def authorize(amount, currency = 'USD')
+      Transaction.create_from_payment_method('authorize', token, amount, currency)
     end
   end
 end
