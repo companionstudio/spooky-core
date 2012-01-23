@@ -13,6 +13,10 @@ module SpookyCore
       create_doc('payment_method', xml)
     end
 
+    def valid?
+      errors.empty?
+    end
+
     def token
       at('token')
     end
@@ -27,6 +31,10 @@ module SpookyCore
 
     def number
       at('number')
+    end
+
+    def verification_value
+      at('verification_value')
     end
 
     def payment_method_type

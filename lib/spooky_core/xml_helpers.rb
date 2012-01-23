@@ -25,7 +25,8 @@ module SpookyCore
 
         if node
           text = node.text
-          coerce_with ? text.send(coerce_with) : text
+          value = coerce_with ? text.send(coerce_with) : text
+          value == 0 ? nil : value
         end
       end
     end # #at
