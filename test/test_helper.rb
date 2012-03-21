@@ -2,9 +2,20 @@ require 'test/unit'
 require 'yaml'
 require 'cgi'
 require 'rubygems'
+require 'vcr'
+require 'webmock'
 
 dir = File.expand_path(File.dirname(__FILE__))
 require File.join(dir, '../lib/spooky_core')
+
+VCR.configure do |c|
+  c.cassette_library_dir = File.join(dir, 'vcr_cassettes')
+  c.hook_into :webmock
+  c.default_cassette_options = {
+    :match_requests_on  => [:method, :uri, :body],
+    :record             => :new_episodes
+  }
+end
 
 CONFIG = YAML.load_file(File.join(dir, 'config.yml'))
 SpookyCore.configure(CONFIG['login'], CONFIG['secret'], CONFIG['gateway_token'])

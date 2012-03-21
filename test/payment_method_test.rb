@@ -2,8 +2,10 @@ require File.join(File.expand_path(File.dirname(__FILE__)), 'test_helper')
 
 class PaymentMethodTest < Test::Unit::TestCase
   def setup
-    @valid_payment_method = create_payment_method
-    @invalid_payment_method = create_payment_method(:first_name => nil)
+    VCR.use_cassette('payment_methods') do
+      @valid_payment_method = create_payment_method
+      @invalid_payment_method = create_payment_method(:first_name => nil)
+    end
   end
 
   def test_has_correct_data

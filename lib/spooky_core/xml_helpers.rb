@@ -15,6 +15,7 @@ module SpookyCore
 
     def create_doc(root, xml)
       @root = root
+      @xml = xml
       @doc = Nokogiri::XML::DocumentFragment.parse(xml)
     end
 

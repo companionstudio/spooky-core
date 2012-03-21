@@ -2,6 +2,8 @@ module SpookyCore
   class Transaction
     include XmlHelpers
 
+    Error = Struct.new(:attribute, :type, :message)
+
     def self.create_from_transaction(action, token)
       response = Request.post("/transactions/#{token}/#{action}.xml")
       Transaction.new(response.body)
@@ -65,10 +67,22 @@ module SpookyCore
       at('message')
     end
 
-    def error_type
-      @error_type ||= begin
-        key = @doc.at('transaction/message').attr('key')
-        key.split('.')[1].to_sym
+    def error_messages
+      @error_messages ||= errors.map {|k, v| v.map(&:message)}
+    end
+
+    def errors
+      @errors ||= begin
+        errors = Hash.new {|h, k| h[k] = []}
+
+        @doc.css('errors error').each do |e|
+          attribute = e.attribute('attribute').value.to_sym
+          type      = e.attribute('key').value.split('.').last.to_sym
+          message   = e.inner_text
+          errors[attribute] << Error.new(attribute, type, message)
+        end
+
+        errors
       end
     end
   end # Transaction
