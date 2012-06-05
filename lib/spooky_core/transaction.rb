@@ -67,6 +67,12 @@ module SpookyCore
       at('message')
     end
 
+    def message_keys
+      @doc.css('message').map do |m|
+        m.attribute('key').value
+      end
+    end
+
     def error_messages
       @error_messages ||= errors.map {|k, v| v.map(&:message)}
     end
