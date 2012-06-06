@@ -4,7 +4,7 @@ class PurchaseTest < Test::Unit::TestCase
   def setup
     VCR.use_cassette('payment_methods') do
       @valid_payment_method = create_payment_method
-      @invalid_payment_method = create_payment_method(:first_name => nil)
+      @invalid_payment_method = create_payment_method(:missing_name)
     end
   end
 
