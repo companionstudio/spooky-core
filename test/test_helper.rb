@@ -13,12 +13,12 @@ VCR.configure do |c|
   c.hook_into :webmock
   c.default_cassette_options = {
     :match_requests_on  => [:method, :uri, :body],
-    :record             => :new_episodes
+    :record             => :new_episodes 
   }
 end
 
-CONFIG = YAML.load_file(File.join(dir, 'config.yml'))
-SpookyCore.configure(CONFIG['login'], CONFIG['secret'], CONFIG['gateway_token'])
+
+SpookyCore.configure(ENV['LOGIN'], ENV['SECRET'], ENV['GATEWAY'])
 
 DEFAULT_CC = {
   :first_name         => "John",
@@ -30,14 +30,20 @@ DEFAULT_CC = {
 }
 
 DEFAULT_OPTS = {
-  :api_login    => CONFIG['login'],
+  :api_login    => ENV['LOGIN'],
   :redirect_url => "http://derp.com",
   :credit_card  => DEFAULT_CC
 }
 
-def create_payment_method(opts = nil)
+TEST_CARDS = {
+  :success => DEFAULT_CC,
+  :missing_name => DEFAULT_CC.merge({:first_name => nil}),
+  :failed => DEFAULT_CC.merge({:number => '4012888888881881'})
+}
+
+def create_payment_method(card = nil)
   params = DEFAULT_OPTS.dup
-  params[:credit_card] = params[:credit_card].merge(opts) if opts
+  params[:credit_card] = TEST_CARDS[card] if card
 
   begin
     response = HTTParty.post(
