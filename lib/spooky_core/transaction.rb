@@ -67,12 +67,6 @@ module SpookyCore
       at('message')
     end
 
-    def message_keys
-      @doc.css('message').map do |m|
-        m.attribute('key').value
-      end
-    end
-
     def error_messages
       @error_messages ||= errors.map {|k, v| v.map(&:message)}
     end
@@ -81,11 +75,24 @@ module SpookyCore
       @errors ||= begin
         errors = Hash.new {|h, k| h[k] = []}
 
+        # The errors elements contain information about problems that occured before the transaction was attempted.
         @doc.css('errors error').each do |e|
           attribute = e.attribute('attribute').value.to_sym
           type      = e.attribute('key').value.split('.').last.to_sym
           message   = e.inner_text
           errors[attribute] << Error.new(attribute, type, message)
+        end
+
+        #Messages elements may also contain error info returned by the gateway
+        unless succeeded?
+          @doc.css('message').each do |m|
+            if m.attribute('key')
+              attribute = m.attribute('key').value.to_sym
+              type = m.attribute('key').value.split('.').last.to_sym
+              message = m.inner_text
+              errors[attribute] << Error.new(attribute, type, message)
+            end
+          end
         end
 
         errors
