@@ -53,6 +53,10 @@ module SpookyCore
       at('year', :to_i)
     end
 
+    def card_type
+      at('card_type')
+    end
+
     def purchase(amount, currency = 'USD')
       Transaction.create_from_payment_method('purchase', token, amount, currency)
     end
