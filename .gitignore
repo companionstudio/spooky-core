@@ -1,6 +1,7 @@
 .DS_Store
 profile
-test/config.yml
 *.gem
 .rvmrc
-test/vcr_cassettes/*
+.bundle/*
+spec/vcr_cassettes/*
+env.rb

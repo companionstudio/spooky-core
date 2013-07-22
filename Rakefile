@@ -1,19 +1,14 @@
-require 'rake/testtask'
-
-Rake::TestTask.new(:test) do |test|
-  test.libs << 'lib' << 'test'
-  test.pattern = 'test/**/*_test.rb'
-  test.verbose = true
+# encoding: UTF-8
+begin
+  require 'bundler/setup'
+rescue LoadError
+  puts 'You must `gem install bundler` and `bundle install` to run rake tasks'
 end
 
-desc "build the gemfile"
-task :gem do
-  system("gem build spooky_core.gemspec")
-end
+require 'rake'
+require 'rspec/core'
+require 'rspec/core/rake_task'
 
-desc "build the gem and install it"
-task :install do
-  system("gem build spooky_core.gemspec")
-  f = Dir["spooky_core-*.gem"][0]
-  system("gem install #{f}")
-end
+RSpec::Core::RakeTask.new(:spec)
+Bundler::GemHelper.install_tasks
+task :default => :spec
