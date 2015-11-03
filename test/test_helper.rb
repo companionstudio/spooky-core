@@ -47,7 +47,7 @@ def create_payment_method(card = nil)
 
   begin
     response = HTTParty.post(
-      "https://spreedlycore.com/v1/payment_methods",
+      "https://core.spreedly.com/v1/payment_methods",
       :body => params,
       :no_follow => true
     )

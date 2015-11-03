@@ -3,7 +3,7 @@ module SpookyCore
     include HTTParty
     headers 'Accept' => 'text/xml'
     headers 'Content-Type' => 'text/xml'
-    base_uri("https://spreedlycore.com/v1")
+    base_uri("https://core.spreedly.com/v1")
     format :xml
 
     def self.configure(login, secret, gateway)
