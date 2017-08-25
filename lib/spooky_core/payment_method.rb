@@ -29,6 +29,10 @@ module SpookyCore
       at('last_name')
     end
 
+    def full_name
+      at('full_name')
+    end
+
     def number
       at('number')
     end
