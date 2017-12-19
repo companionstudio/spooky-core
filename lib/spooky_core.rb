@@ -9,7 +9,7 @@ require File.join(dir, 'spooky_core/payment_method')
 require File.join(dir, 'spooky_core/transaction')
 
 module SpookyCore
-  VERSION = '0.1'
+  VERSION = '0.6.2'
 
   def self.configure(login, secret, gateway)
     Request.configure(login, secret, gateway)
