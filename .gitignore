@@ -4,3 +4,5 @@ test/config.yml
 *.gem
 .rvmrc
 test/vcr_cassettes/*
+.bundle
+.bundle/*
