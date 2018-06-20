@@ -5,7 +5,7 @@ module SpookyCore
     Error = Struct.new(:attribute, :type, :message)
 
     def self.create_from_transaction(action, token, body = {})
-      options = {body: body}
+      options = {body: body.to_xml}
       response = Request.post("/transactions/#{token}/#{action}.xml", options)
       Transaction.new(response.body)
     end
